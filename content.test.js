@@ -26,18 +26,15 @@ function createMockElement() {
     style: {},
     id: '',
     textContent: '',
-    onmouseover: null,
-    onmouseout: null,
-    onclick: null
+    tagName: 'BUTTON'
   };
 }
 
-// Mock document.createElement
-const originalCreateElement = typeof document !== 'undefined' ? document.createElement : null;
 function mockCreateElement(tagName) {
   if (tagName === 'button') {
     return createMockElement();
   }
+  return createMockElement();
 }
 
 // Tests for parseRawGitHubUrl function
@@ -96,44 +93,48 @@ runTest('applyStylesToButton - applies styles to button', () => {
   const mockButton = createMockElement();
   const testStyles = {
     color: 'red',
-    fontSize: '16px'
+    fontSize: '16px',
+    padding: '10px'
   };
   
   applyStylesToButton(mockButton, testStyles);
   
   assertEquals(mockButton.style.color, 'red', 'Should apply color style');
   assertEquals(mockButton.style.fontSize, '16px', 'Should apply fontSize style');
+  assertEquals(mockButton.style.padding, '10px', 'Should apply padding style');
 });
 
 // Tests for createButton function
 runTest('createButton - creates button with default config', () => {
-  // Mock document.createElement for this test
-  if (typeof document === 'undefined') {
-    global.document = { createElement: mockCreateElement };
-  }
+  const originalCreateElement = document.createElement;
+  document.createElement = mockCreateElement;
   
   const button = createButton();
   
   assertEquals(button.id, 'unraw-button', 'Should set default id');
   assertEquals(button.textContent, 'View on GitHub', 'Should set default text');
+  assert(button.tagName.toLowerCase() === 'button', 'Should create button element');
+  
+  document.createElement = originalCreateElement;
 });
 
 runTest('createButton - creates button with custom config', () => {
-  if (typeof document === 'undefined') {
-    global.document = { createElement: mockCreateElement };
-  }
+  const originalCreateElement = document.createElement;
+  document.createElement = mockCreateElement;
   
   const config = {
     id: 'custom-button',
     text: 'Custom Text',
-    styles: { color: 'blue' }
+    styles: { color: 'blue', fontSize: '18px' }
   };
   
   const button = createButton(config);
   
   assertEquals(button.id, 'custom-button', 'Should use custom id');
   assertEquals(button.textContent, 'Custom Text', 'Should use custom text');
+  assertEquals(button.style.color, 'blue', 'Should apply custom styles');
+  
+  document.createElement = originalCreateElement;
 });
 
-console.log('Running content.js tests...');
-console.log('Note: Some tests may require running in a browser environment or with additional DOM mocking.');
+console.log('Running content.js tests in browser environment...');
