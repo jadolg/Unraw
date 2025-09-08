@@ -78,6 +78,24 @@ runTest('parseRawGitHubUrl - malformed URL', () => {
   assertEquals(result, null, 'Should return null for malformed URLs');
 });
 
+runTest('parseRawGitHubUrl - empty string', () => {
+  const result = parseRawGitHubUrl('');
+  assertEquals(result, null, 'Should return null for empty string');
+});
+
+runTest('parseRawGitHubUrl - branch with special characters', () => {
+  const testUrl = 'https://raw.githubusercontent.com/user/repo/feature/add-new-functionality/file.js';
+  const result = parseRawGitHubUrl(testUrl);
+  
+  assertEquals(result, {
+    user: 'user',
+    repo: 'repo',
+    branch: 'feature',
+    filePath: 'add-new-functionality/file.js',
+    githubUrl: 'https://github.com/user/repo/blob/feature/add-new-functionality/file.js'
+  }, 'Should parse URL with branch and nested path correctly');
+});
+
 // Tests for getButtonStyles function
 runTest('getButtonStyles - returns correct styles object', () => {
   const styles = getButtonStyles();
