@@ -25,6 +25,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Run style check
+        run: npm run style-check
+
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
