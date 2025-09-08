@@ -8,7 +8,11 @@
   "devDependencies": {
     "jsdom": "^24.0.0"
   },
-  "keywords": ["chrome-extension", "github", "url-converter"],
+  "keywords": [
+    "chrome-extension",
+    "github",
+    "url-converter"
+  ],
   "author": "",
   "license": "MIT"
 }
