@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Chrome extension that provides a button to convert a raw GitHub URL to a standard one",
   "scripts": {
-    "test": "node test-runner.js"
+    "test": "node test-runner.js",
+    "style-check": "node check-newlines.js"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"
