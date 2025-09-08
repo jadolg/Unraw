@@ -104,6 +104,8 @@ runTest('getButtonStyles - returns correct styles object', () => {
   assert(styles.backgroundColor === '#24292f', 'Should set correct background color');
   assert(styles.color === 'white', 'Should set text color to white');
   assert(styles.zIndex === '9999', 'Should set high z-index');
+  assert(styles.top === '10px', 'Should set top position');
+  assert(styles.right === '10px', 'Should set right position');
 });
 
 // Tests for applyStylesToButton function
