@@ -3,10 +3,7 @@
   "name": "unraw",
   "version": "1.0",
   "description": "Provides a button to convert a raw GitHub URL to a standard one.",
-  "permissions": [
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": [],
   "host_permissions": [
     "https://raw.githubusercontent.com/*"
   ],
