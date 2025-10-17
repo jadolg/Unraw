@@ -1,3 +1,17 @@
+function rawToGithubUrl(rawUrl) {
+  const regex = /https:\/\/raw.githubusercontent.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)/;
+  const match = rawUrl.match(regex);
+
+  if (match && match.length === 5) {
+    const user = match[1];
+    const repo = match[2];
+    const branch = match[3];
+    const filePath = match[4];
+    return `https://github.com/${user}/${repo}/blob/${branch}/${filePath}`;
+  }
+  return null;
+}
+
 function createUnrawButton() {
   if (document.getElementById('unraw-button')) {
     return;
@@ -6,6 +20,7 @@ function createUnrawButton() {
   const button = document.createElement('button');
   button.id = 'unraw-button';
   button.textContent = 'View on GitHub';
+  button.setAttribute('aria-label', 'View this file on GitHub');
   button.style.position = 'fixed';
   button.style.top = '10px';
   button.style.right = '10px';
@@ -25,21 +40,12 @@ function createUnrawButton() {
     this.style.backgroundColor = '#24292f';
   };
 
-
   button.onclick = function() {
-    const rawUrl = window.location.href;
-    const regex = /https:\/\/raw.githubusercontent.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)/;
-    const match = rawUrl.match(regex);
-
-    if (match && match.length === 5) {
-      const user = match[1];
-      const repo = match[2];
-      const branch = match[3];
-      const filePath = match[4];
-      const newUrl = `https://github.com/${user}/${repo}/blob/${branch}/${filePath}`;
+    const newUrl = rawToGithubUrl(window.location.href);
+    if (newUrl) {
       window.location.href = newUrl;
     } else {
-      console.error("Could not parse raw GitHub URL.");
+      alert("Could not parse raw GitHub URL.");
     }
   };
 
